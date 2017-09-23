@@ -8,14 +8,29 @@ defmodule Elir.TestSuiteRunner do
     run_external_command(data, args)
   end
 
-  defp run_external_command([cmd, target_dir, env_variables] = data, args) do
+  defp run_external_command([cmd, target_dir, env_variables, elir_config] = _data, args) do
     Logger.info "==> Running #{cmd} #{target_dir}, with: #{inspect(env_variables)}, args: #{inspect(args)}"
     [command | rest] = String.split(cmd, " ")
-    {:ok, pid} = Elir.FileStream.start_link(file: "rspec.log")
-    stream = IO.stream(pid, :line)
+    run_log_file = elir_config["log_file"]
 
-    {_, res} = executor(command, rest ++ args,
-                [stream: stream, cd: target_dir, env: env_variables, parallelism: true])
+    stream =
+      if run_log_file do
+        {:ok, pid} = Elir.FileStream.start_link(file: run_log_file)
+        IO.stream(pid, :line)
+      else
+        IO.binstream(:standard_io, :line)
+      end
+
+    labels =
+      Enum.reduce(env_variables, [], fn({l, _v}, acc) -> acc ++ [l] end)
+      |> Enum.join(", ")
+
+    {_, res} = executor(command, rest ++ args, [
+                  stream: stream,
+                  cd: target_dir,
+                  env: env_variables ++ [{"labels", labels}],
+                  parallelism: true
+                ])
 
     if res > 0 do
       Logger.error "Shutting down; #{inspect res}"
@@ -24,8 +39,8 @@ defmodule Elir.TestSuiteRunner do
   end
 
   def executor(cmd, args, opts \\ []) do
-    stream = opts[:stream] || IO.binstream(:standard_io, :line)
     std_err = opts[:stderr_to_stdout] || true
+    stream = opts[:stream] || IO.binstream(:standard_io, :line)
     opts = Keyword.drop(opts, [:into, :stderr_to_stdout, :stream])
     System.cmd(cmd, args, [into: stream, stderr_to_stdout: std_err] ++ opts)
   end

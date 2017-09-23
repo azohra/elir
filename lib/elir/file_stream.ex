@@ -27,7 +27,7 @@ defmodule Elir.FileStream do
     }}
   end
 
-  def handle_info({:io_request, from, reply_as, {:put_chars, _encoding, chars}} = data, s) do
+  def handle_info({:io_request, from, reply_as, {:put_chars, _encoding, chars}} = _data, s) do
     if s.file != nil do
       File.write(s.file, chars, [:append])
     end
