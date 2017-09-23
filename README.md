@@ -2,24 +2,24 @@
 
 > This is our take on supercharging the test-automation tools with the ability to run supervised tests (RSpec/Minitest/etc) concurrently, in the simplest way possible - if possible :)
 
-Prototype made for demo purposes, during the Ruby Open Source Testing Code Hackathon, hosted at Loblaw Digital 22-23, Sept 2017
+Prototype made for demo purposes, during the Ruby Open Source Testing Code Hackathon, 22-23 Sept 2017, hosted by Loblaw Digital, in Toronto.
 
 ## Installation
 
 Get the project:
 
-    git clone 
+    git clone https://github.com/azohra/elir.git
 
 Get dependencies, Compile and Test (1st):
 
-      cd elir
-      mix do deps.get, compile
-      mix test
+    cd elir
+    mix do deps.get, compile
+    mix test
 
 If everything is fine, then build Elir to be used as cli app/script:
 
-      cd elir
-      mix escript.build
+    cd elir
+    mix escript.build
 
 You should now have an executable: `elir`, in your **elir** project folder.
 
