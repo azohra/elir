@@ -1,0 +1,8 @@
+elir:
+  env:
+    - languages: en, fr
+    - devices: desktop, mobile
+    - servers: local
+  # and run this command for every combination above
+  cmd: bundle exec rspec
+
