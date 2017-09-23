@@ -2,7 +2,7 @@
 
 > This is our take on supercharging the test-automation tools with the ability to run supervised tests (RSpec/Minitest/etc) concurrently, in the simplest way possible - if possible :)
 
-Prototype made for demo purposes, during the Ruby Open Source Testing Code Hackathon, hosted at Loblow Digital 22-23, Sept 2017
+Prototype made for demo purposes, during the Ruby Open Source Testing Code Hackathon, hosted at Loblaw Digital 22-23, Sept 2017
 
 ## Installation
 
