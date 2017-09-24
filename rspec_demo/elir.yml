@@ -6,5 +6,5 @@ elir:
   # and run this command for every combination above
   cmd: bundle exec rspec
   # uncomment next, to write the cmd output to a file of your choice
-  log_file: results.log
+  # log_file: results.log
 
