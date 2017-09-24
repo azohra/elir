@@ -43,13 +43,14 @@ we must define the `elir.yml` file, in the `rspec_demo` folder. This is the file
 
 ```yml
 elir:
-  # mix the values of every env variable defined below
   env:
     - languages: en, fr
-    - devices: desktop
+    - devices: desktop, mobile
     - servers: local
   # and run this command for every combination above
   cmd: bundle exec rspec
+  # uncomment next, to write the cmd output to a file of your choice
+  # log_file: results.log
 ```
 
 With other words, we configure Elir to: mix the values defined by the env variables above: `devices`, `languages`, etc, and to run `bundle exec rspec` in the folder we want. For every run the ENV will contain the singular form of your variables defined in the `env:` and their respective value for that run. Remember, the System ENV contents are **not** interpolated, every run receiving a clean ENV! Example of run:
@@ -95,6 +96,12 @@ rspec ./spec/env_spec.rb:4 # ENV can find variables in the system environment
 11:01:44.343 [error] Shutting down; 1
 
 ```
+
+Also, the env variables from the `elir.yml`, their singular form, are also available in the ENV, as: `ENV["labels"]`, to simplify the implementation of various custom (RSpec, etc) formatters. For example:
+
+    puts ENV["labels"]
+    # server, language, device
+
 
 Notice the log containing the cartesian product resulting from mixing your `env` variables, for every run:
 
