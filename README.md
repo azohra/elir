@@ -113,4 +113,12 @@ Notice the log containing the cartesian product resulting from mixing your `env`
 
 - Elir is using an inflector to obtain the singular form of your variable names: `languages` => `language`. You'll get the singular form, in the ENV!
 
+## Docker
+
+> this part is currently under development
+
+You can run elir using docker. Example:
+
+    docker run --rm -v ~/temp/rspec_demo:/app/test_dir azohra/elir ./elir test_dir
+
 (work in progress)

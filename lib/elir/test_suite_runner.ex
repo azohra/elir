@@ -11,7 +11,7 @@ defmodule Elir.TestSuiteRunner do
   defp run_external_command([cmd, target_dir, env_variables, elir_config] = _data, args) do
     Logger.info "==> Running #{cmd} #{target_dir}, with: #{inspect(env_variables)}, args: #{inspect(args)}"
     [command | rest] = String.split(cmd, " ")
-    run_log_file = elir_config["log_file"]
+    run_log_file = elir_config["log_file"] || false
 
     stream =
       if run_log_file do
