@@ -25,13 +25,13 @@ defmodule Elir do
     end
 
     config["elir"]["env"]
-    |> Utils.cartesian
+    |> Utils.cartesian(Map.get(config["elir"], "inflector", true))
     |> Enum.map(&(run_suite.(config["elir"]["cmd"], &1)))
     |> Enum.map(&(Task.await(&1, suite_timeout())))
   end
 
   def main(args) do
-    Logger.info("Elir v0.1.15")
+    Logger.info("Elir v0.2.35")
     Application.ensure_all_started(:elir)
     Elir.start_suite(args)
   end

@@ -1,7 +1,7 @@
 defmodule Elir.Mixfile do
   use Mix.Project
 
-  @version "0.1.15"
+  @version "0.2.35"
   
   def project do
     [

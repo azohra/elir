@@ -39,14 +39,35 @@ rspec_demo
    └── spec_helper.rb
 ```
 
-we must define the `elir.yml` file, in the `rspec_demo` folder. This is the file used by Elir. Example:
+we must define the `elir.yml` file, in the `rspec_demo` folder. This is the file used by Elir. 
+
+## Configuring Elir
+
+Example of a custom Elir configuration file (elir.yml):
 
 ```yml
 elir:
+  inflector: true
+  
+  # create a cartesian product with the elements below
   env:
-    - languages: en, fr
-    - devices: desktop, mobile
+    - languages: fr, en
+    - devices: mobile, desktop
     - servers: local
+  
+  # pour the next values into the environment, as is
+  context_env:
+    - alpha: beta
+    - gamma: delta
+  
+  # every run will receive a process id following the formatting hints below
+  process:
+    name: RUN_ID
+    length: 20
+    # prefix: KE
+    # suffix: WL
+    # sep: "-"
+  
   # and run this command for every combination above
   cmd: bundle exec rspec
   # uncomment next, to write the cmd output to a file of your choice
@@ -111,7 +132,7 @@ Notice the log containing the cartesian product resulting from mixing your `env`
 
 **Please Observe!**
 
-- Elir is using an inflector to obtain the singular form of your variable names: `languages` => `language`. You'll get the singular form, in the ENV!
+- Elir is using an inflector to obtain the singular form of your variable names: `languages` => `language`. You'll get the singular form, in the ENV! You can disable the inflector, by setting the `inflector` config variable to: `false`
 
 ## Docker
 

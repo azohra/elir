@@ -1,8 +1,25 @@
 elir:
+  inflector: true
+  
+  # create a cartesian product with the elements below
   env:
-    - languages: en, fr
-    - devices: desktop, mobile
+    - languages: fr, en
+    - devices: mobile, desktop
     - servers: local
+  
+  # pour the next values into the environment, as is
+  context_env:
+    - alpha: beta
+    - gamma: delta
+  
+  # every run will receive a process id following the formatting hints below
+  process:
+    name: RUN_ID
+    length: 20
+    # prefix: KE
+    # suffix: WL
+    # sep: "-"
+  
   # and run this command for every combination above
   cmd: bundle exec rspec
   # uncomment next, to write the cmd output to a file of your choice
