@@ -20,6 +20,13 @@ erl_crash.dump
 *.ez
 *.log
 
+# distillery
+/rel/test
+relx
+erl_crash.dump
+/releases
+/tmp
+
 /elir
 ### SublimeText template
 # Cache files for Sublime Text
