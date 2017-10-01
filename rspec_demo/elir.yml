@@ -15,7 +15,7 @@ elir:
   # every run will receive a process id following the formatting hints below
   process:
     name: RUN_ID
-    length: 20
+    length: 5
     # prefix: KE
     # suffix: WL
     # sep: "-"
@@ -25,3 +25,6 @@ elir:
   # uncomment next, to write the cmd output to a file of your choice
   # log_file: results.log
 
+  pool_size: 20
+  max_overflow: 5
+  # suite_timeout: :infinity

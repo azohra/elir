@@ -4,20 +4,24 @@ defmodule Elir.Application do
   @moduledoc false
 
   use Application
+  
+  require Logger
 
-  def start(_type, _args) do
+  def start(_type, [%{folder: folder, args: args, config: config}] = opts) do
     # List all child processes to be supervised
-    import Supervisor.Spec, warn: false
-
+    # Logger.warn("#{__MODULE__}.start/2; opts: #{inspect(opts)}")
+    
     poolboy_config = [
       {:name, {:local, pool_name()}},
       {:worker_module, Elir.Worker},
-      {:size, Elir.pool_size()},
-      {:max_overflow, Elir.max_overflow()}
+      {:size, pool_size(config["elir"])},
+      {:max_overflow, max_overflow(config["elir"])}
     ]
 
-    # Define workers and child supervisors to be supervised
     children = [
+      # Starts a worker by calling: Elir.Worker.start_link(arg)
+      # {Elir.Worker, arg},
+      {Elir.ConfigAgent, args[:config]},
       :poolboy.child_spec(pool_name(), poolboy_config, [])
     ]
 
@@ -29,5 +33,17 @@ defmodule Elir.Application do
 
   def pool_name do
     :elir_pool
+  end
+
+  def pool_size(config) do
+    config |> Map.get("pool_size", 1)
+  end
+
+  def max_overflow(config) do
+    config |> Map.get("max_overflow", 0)
+  end
+
+  def suite_timeout(config) do
+    config |> Map.get("suite_timeout", :infinity)
   end
 end

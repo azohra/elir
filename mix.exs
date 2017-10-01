@@ -1,7 +1,7 @@
 defmodule Elir.Mixfile do
   use Mix.Project
 
-  @version "0.2.35"
+  @version "0.3.15"
   
   def project do
     [
@@ -17,8 +17,7 @@ defmodule Elir.Mixfile do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :poolboy, :yaml_elixir],
-      mod: {Elir.Application, []}
+      extra_applications: [:logger, :poolboy, :yaml_elixir]
     ]
   end
 
@@ -27,10 +26,10 @@ defmodule Elir.Mixfile do
     [
       {:mix_test_watch, "~> 0.4.0", runtime: false},
       {:secure_random, "~> 0.5"},
-      {:credo, "~> 0.8.4", only: [:dev, :test]},
+      {:credo, "~> 0.8", only: [:dev, :test]},
       {:poolboy, "~> 1.5"},
       {:yaml_elixir, "~> 1.3"},
-      {:inflectorex, "~> 0.1.2"},
+      {:inflectorex, "~> 0.1"},
     ]
   end
 end

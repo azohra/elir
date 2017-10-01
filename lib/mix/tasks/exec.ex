@@ -13,6 +13,7 @@ defmodule Mix.Tasks.Exec do
 
   @doc false
   def run(args) do
+    Application.ensure_all_started(:elir)
     Elir.main(args)
   end
 end

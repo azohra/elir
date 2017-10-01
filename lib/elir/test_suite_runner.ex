@@ -11,13 +11,13 @@ defmodule Elir.TestSuiteRunner do
   end
 
   defp run_external_command([cmd, target_dir, env_variables, elir_config] = _data, args) do
-    Logger.info "==> Running #{cmd} #{target_dir}, with: #{args_details(env_variables, args)}"
     [command | rest] = String.split(cmd, " ")
     run_log_file = elir_config["log_file"] || false
-    Logger.info inspect(elir_config)
-
+    
     context_env_user_vars = Utils.user_vars(elir_config)
     {process_name, process_id} = Utils.process_name_and_id(elir_config["process"])
+    
+    Logger.info "[#{process_name}: #{process_id}] #{cmd} #{target_dir}, with: #{args_details(env_variables, args)}"
 
     stream =
       if run_log_file do
@@ -34,13 +34,13 @@ defmodule Elir.TestSuiteRunner do
     {_, res} = executor(command, rest ++ args, [
                   stream: stream,
                   cd: target_dir,
-                  env: env_variables ++ [{"labels", labels}, {process_name, process_id}],
+                  env: context_env_user_vars ++ env_variables ++ [{"labels", labels}, {process_name, process_id}],
                   parallelism: true
                 ])
 
+    Logger.info "[#{process_name}: #{process_id}] finished."
     if res > 0 do
-      Logger.error "Shutting down; #{inspect res}; #{args_details(env_variables, args)}"
-      System.at_exit(fn _ -> exit({:shutdown, 1}) end)
+      # System.at_exit(fn _ -> exit({:shutdown, 1}) end)
     end
   end
 

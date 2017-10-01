@@ -22,6 +22,6 @@ defmodule ElirTest do
       [{"device", "desktop"}, {"language", "babylonian"}], 
       [{"device", "mobile"}, {"language", "en"}], 
       [{"device", "mobile"}, {"language", "babylonian"}]
-    ] == Elir.Utils.cartesian(@env)
+    ] == Elir.Utils.cartesian(@env, true)
   end
 end
