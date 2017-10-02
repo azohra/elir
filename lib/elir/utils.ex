@@ -35,6 +35,7 @@ defmodule Elir.Utils do
 
   def user_vars(elir_config), do: map_from_list_of_maps(elir_config["context_env"])
   
+  def process_name_and_id(nil), do: process_name_and_id(%{})  
   def process_name_and_id(elir_config) do    
     process_name = Map.get(elir_config, "name", "PROCESS_ID")
     
@@ -53,6 +54,7 @@ defmodule Elir.Utils do
   defp singularize(plural, false), do: plural
   defp singularize(plural, true), do: Inflectorex.singularize(plural)
 
+  defp map_from_list_of_maps(nil), do: []
   defp map_from_list_of_maps(list_of_maps) do
     list_of_maps
     |> Enum.reduce(%{}, fn(m, acc) -> Map.merge(acc, m) end)
