@@ -9,24 +9,20 @@ defmodule Elir.Utils do
   return the cartesian product between every value of the k/V structures in the given list.
   The list contain maps with a singular key ... (the weird result of getting a yaml converted to Elixir)
   """
-  def cartesian(list_w_maps, depluralize \\ false) do
-    pop_one = fn map, keys ->
-      k = List.first(keys)
-      [k, map[k]]
-    end
+  def cartesian(env_map, depluralize \\ false) do
 
     keys =
-      list_w_maps
-      |> Enum.map(&(pop_one.(&1, Map.keys(&1))))
-
+      env_map
+      |> Map.keys
+      
     for_this =
       keys
-      |> List.foldl([], fn([k, v], acc) -> acc ++ ["#{String.downcase(k)} <- ~w{#{String.replace(v, ~r/\W+/, " ")}}"] end)
-      |> Enum.join(",")
+      |> List.foldl([], fn(k, acc) -> acc ++ ["#{String.downcase(k)} <- ~w{#{Enum.join(env_map[k], " ")}}"] end)
+      |> Enum.join(", ")
 
     do_this =
       keys
-      |> List.foldl([], fn([k, _v], acc) -> acc ++ ["{\"#{singularize(k, depluralize)}\", #{String.downcase(k)}}"] end)
+      |> List.foldl([], fn(k, acc) -> acc ++ ["{\"#{singularize(k, depluralize)}\", #{String.downcase(k)}}"] end)
       |> Enum.join(",")
       
       {cartesian, _binding} = Code.eval_string("for #{for_this}, into: [] do; [#{do_this}]; end")
@@ -57,7 +53,6 @@ defmodule Elir.Utils do
   defp map_from_list_of_maps(nil), do: []
   defp map_from_list_of_maps(list_of_maps) do
     list_of_maps
-    |> Enum.reduce(%{}, fn(m, acc) -> Map.merge(acc, m) end)
     |> Map.to_list
   end
 end

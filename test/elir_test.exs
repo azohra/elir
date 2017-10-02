@@ -2,7 +2,7 @@ defmodule ElirTest do
   use ExUnit.Case
   
   @elir_demo_project_path "rspec_demo"
-  @env [%{"devices" => "desktop, mobile"}, %{"languages" => "en, babylonian"}]
+  @env %{"devices" => ["desktop", "mobile"], "languages" => ["en", "babylonian"]}
 
   test "Elir can be configured from a YAML file in a relative path" do
     assert {:ok, file} = Elir.configure(@elir_demo_project_path)
