@@ -21,14 +21,14 @@ defmodule Elir.Utils do
 
     for_this =
       keys
-      |> List.foldl([], fn([k, v], acc) -> acc ++ ["#{k} <- ~w{#{String.replace(v, ~r/\W+/, " ")}}"] end)
+      |> List.foldl([], fn([k, v], acc) -> acc ++ ["#{String.downcase(k)} <- ~w{#{String.replace(v, ~r/\W+/, " ")}}"] end)
       |> Enum.join(",")
 
     do_this =
       keys
-      |> List.foldl([], fn([k, _v], acc) -> acc ++ ["{\"#{singularize(k, depluralize)}\", #{k}}"] end)
+      |> List.foldl([], fn([k, _v], acc) -> acc ++ ["{\"#{singularize(k, depluralize)}\", #{String.downcase(k)}}"] end)
       |> Enum.join(",")
-
+      
       {cartesian, _binding} = Code.eval_string("for #{for_this}, into: [] do; [#{do_this}]; end")
       cartesian
   end
