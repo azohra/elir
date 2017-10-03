@@ -11,6 +11,8 @@ elir:
       - desktop
     servers:
       - local
+    TEST: 
+      - env_spec.rb
   
   # pour the next values into the environment, as is
   context_env:
@@ -26,7 +28,7 @@ elir:
     # sep: "-"
   
   # and run this command for every combination above
-  cmd: bundle exec rspec
+  cmd: bundle exec rspec spec/${elir[:TEST]}
   # uncomment next, to write the cmd output to a file of your choice
   # log_file: results.log
 
