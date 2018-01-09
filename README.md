@@ -1,3 +1,5 @@
+(project moved to [Azhora](https://gitlab.com/azohra/elir))
+
 # Elir
 
 > This is our take on supercharging the test-automation tools with the ability to run supervised tests (RSpec/Minitest/etc) concurrently, in the simplest way possible - if possible :)
